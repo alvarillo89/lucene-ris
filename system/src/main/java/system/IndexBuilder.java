@@ -43,7 +43,7 @@ public class IndexBuilder
     private Document toDocument(File file) throws IOException
     {
         Document doc = new Document();
-        Field body = new Field("body", new FileReader(file), TextField.TYPE_STORED);
+        Field body = new Field("body", new FileReader(file), TextField.TYPE_NOT_STORED);
         doc.add(body);
         return doc;
     }

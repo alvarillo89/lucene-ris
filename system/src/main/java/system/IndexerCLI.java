@@ -12,13 +12,16 @@ import system.IndexBuilder;
 @Command(name = "indexercli", description = "build an index from a set of documents")
 public class IndexerCLI implements Callable<Integer>
 {
-    @Option(names = "-i", paramLabel = "DOCUMENTS", description = "path to folder that contains the documents to be indexed")
+    @Option(names = "-i", paramLabel = "DOCUMENTS", required = true,
+        description = "path to folder that contains the documents to be indexed")
     String documents;
 
-    @Option(names = "--sw", paramLabel = "STOP_WORDS", description = "path to file that contains the stop words list")
+    @Option(names = "--sw", paramLabel = "STOP_WORDS", required = true, 
+        description = "path to file that contains the stop words list")
     String stopWords;
 
-    @Option(names = "-o", paramLabel = "OUT_FOLDER", description = "path to folder that will store the index files")
+    @Option(names = "-o", paramLabel = "OUT_FOLDER", required = true,
+        description = "path to folder that will store the index files")
     String outFolder;
 
     public static void main(String[] args) {

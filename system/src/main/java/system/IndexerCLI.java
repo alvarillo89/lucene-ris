@@ -7,11 +7,11 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import system.IndexBuilder;
+import system.QueryEngine;
 
 
 @Command(name = "indexercli", description = "build an index from a set of documents")
-public class IndexerCLI implements Callable<Integer>
-{
+public class IndexerCLI implements Callable<Integer> {
     @Option(names = "-i", paramLabel = "DOCUMENTS", required = true,
         description = "path to folder that contains the documents to be indexed")
     String documents;
@@ -30,11 +30,14 @@ public class IndexerCLI implements Callable<Integer>
     }
 
     @Override
-    public Integer call() throws Exception
-    {
+    public Integer call() throws Exception {
         IndexBuilder indexBuilder = new IndexBuilder(outFolder, stopWords);
         indexBuilder.buildIndex(documents);
         indexBuilder.close();
+        
+        /*QueryEngine queryEngine = new QueryEngine(outFolder, stopWords);
+        queryEngine.Find("NASA");
+        queryEngine.close();*/
         return 0;
     }
 }

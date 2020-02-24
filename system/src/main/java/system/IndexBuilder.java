@@ -3,6 +3,8 @@ package system;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -40,7 +42,8 @@ public class IndexBuilder {
      */
     private Document toDocument(File file) throws IOException {
         Document doc = new Document();
-        Field body = new Field("body", new FileReader(file), TextField.TYPE_NOT_STORED);
+        String content = Files.readString(Paths.get(file.getPath()), StandardCharsets.ISO_8859_1);
+        Field body = new Field("body", content, TextField.TYPE_STORED);
         doc.add(body);
         return doc;
     }

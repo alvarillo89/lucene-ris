@@ -50,7 +50,7 @@ public class QueryEngine {
 
         for (ScoreDoc scoreDoc : score) {
             Document doc = searcher.doc(scoreDoc.doc);
-            System.out.println(doc.getFields().toString());
+            System.out.println(doc.getField("body").toString());
         }
     }
 

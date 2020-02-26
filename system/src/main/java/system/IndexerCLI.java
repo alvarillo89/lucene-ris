@@ -6,10 +6,6 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-import system.IndexBuilder;
-import system.QueryEngine;
-
-
 @Command(name = "indexercli", description = "build an index from a set of documents")
 public class IndexerCLI implements Callable<Integer> {
     @Option(names = "-i", paramLabel = "DOCUMENTS", required = true,
@@ -34,10 +30,6 @@ public class IndexerCLI implements Callable<Integer> {
         IndexBuilder indexBuilder = new IndexBuilder(outFolder, stopWords);
         indexBuilder.buildIndex(documents);
         indexBuilder.close();
-        
-        /*QueryEngine queryEngine = new QueryEngine(outFolder, stopWords);
-        queryEngine.Find("NASA");
-        queryEngine.close();*/
         return 0;
     }
 }

@@ -3,9 +3,11 @@ package system;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class QueryEngineGUI {
     private JFrame mainFrame;
+    private JDialog resultsDialog;
     private JLabel title;
     private JTextField queryField;
     private JPanel buttonAndField;
@@ -116,10 +118,30 @@ public class QueryEngineGUI {
                 if(queryEngine == null) {
                     queryEngine = new QueryEngine(indexFolder, stopWords);
                 }
-                queryEngine.Find(inputQuery);
+                ShowResultsView(queryEngine.Find(inputQuery));
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
+    }
+    
+
+    private void ShowResultsView(ArrayList<String> info) {
+        resultsDialog = new JDialog(mainFrame, true);
+        resultsDialog.setTitle("Documents found");
+        resultsDialog.setSize(500, 400);
+        resultsDialog.setLocationRelativeTo(mainFrame);
+
+        // TODO: Process list
+        DefaultListModel<String> dlm = new DefaultListModel<String>();
+        for (String string : info) {
+            dlm.addElement(string);
+        }
+
+        JList<String> list = new JList<String>(dlm);
+        JScrollPane jScrollPane = new JScrollPane(list);
+
+        resultsDialog.add(jScrollPane);
+        resultsDialog.setVisible(true);
     }
 }

@@ -3,6 +3,7 @@ package system;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -41,17 +42,20 @@ public class QueryEngine {
     /**
      * Get the top 10 documents that match an input query
      * @param inputQuery The input Query
+     * @return ArrayList of String with the content of the documents found
      * @throws ParseException
      * @throws IOException
      */
-    public void Find(String inputQuery) throws ParseException, IOException {
+    public ArrayList<String> Find(String inputQuery) throws ParseException, IOException {
+        ArrayList<String> out = new ArrayList<>();
         Query query = parser.parse(inputQuery);
         ScoreDoc[] score = searcher.search(query, TOP_N).scoreDocs;
 
         for (ScoreDoc scoreDoc : score) {
             Document doc = searcher.doc(scoreDoc.doc);
-            System.out.println(doc.getField("body").toString());
+            out.add(doc.getField("body").toString());
         }
+        return out;
     }
 
     /**

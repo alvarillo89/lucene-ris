@@ -3,6 +3,7 @@ package system;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class QueryEngineGUI {
@@ -15,6 +16,7 @@ public class QueryEngineGUI {
     private String indexFolder;
     private String stopWords;
     private QueryEngine queryEngine;
+    private ArrayList<Result> info;
     
     /**
      * Constructor:
@@ -118,28 +120,50 @@ public class QueryEngineGUI {
                 if(queryEngine == null) {
                     queryEngine = new QueryEngine(indexFolder, stopWords);
                 }
-                ShowResultsView(queryEngine.Find(inputQuery));
+                info = queryEngine.Find(inputQuery);
+                ShowResultsView();
             }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
     }
     
-
-    private void ShowResultsView(ArrayList<String> info) {
+    /**
+     * Show the Documents found view after a succesful query.
+     */
+    private void ShowResultsView() {
         resultsDialog = new JDialog(mainFrame, true);
         resultsDialog.setTitle("Documents found");
         resultsDialog.setSize(500, 400);
+        resultsDialog.setResizable(false);
         resultsDialog.setLocationRelativeTo(mainFrame);
 
-        // TODO: Process list
-        DefaultListModel<String> dlm = new DefaultListModel<String>();
-        for (String string : info) {
-            dlm.addElement(string);
+        DefaultListModel<Result> dlm = new DefaultListModel<Result>();
+        for (Result res : info) {
+            dlm.addElement(res);
         }
 
-        JList<String> list = new JList<String>(dlm);
-        JScrollPane jScrollPane = new JScrollPane(list);
+        JList<Result> list = new JList<Result>(dlm);
+        list.setFixedCellHeight(50);
+        list.setFixedCellWidth(500);
+        list.setCellRenderer(new ResultRender());
+
+        list.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int index = list.locationToIndex(evt.getPoint());
+                    try {
+                        Desktop.getDesktop().open(new File(info.get(index).getPath()));
+                    } catch (Exception e) {
+                        System.out.println(e.toString());
+                    }
+                } 
+            }
+        });
+
+        JScrollPane jScrollPane = new JScrollPane(list, 
+            JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         resultsDialog.add(jScrollPane);
         resultsDialog.setVisible(true);

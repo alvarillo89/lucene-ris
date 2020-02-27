@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -44,7 +45,9 @@ public class IndexBuilder {
         Document doc = new Document();
         String content = Files.readString(Paths.get(file.getPath()), StandardCharsets.ISO_8859_1);
         Field body = new Field("body", content, TextField.TYPE_STORED);
+        Field path = new Field("path", file.getAbsolutePath(), StringField.TYPE_STORED);
         doc.add(body);
+        doc.add(path);
         return doc;
     }
 

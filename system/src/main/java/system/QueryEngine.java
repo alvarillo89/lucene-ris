@@ -42,18 +42,22 @@ public class QueryEngine {
     /**
      * Get the top 10 documents that match an input query
      * @param inputQuery The input Query
-     * @return ArrayList of String with the content of the documents found
+     * @return ArrayList of Result objects with the information of the documents found
      * @throws ParseException
      * @throws IOException
      */
-    public ArrayList<String> Find(String inputQuery) throws ParseException, IOException {
-        ArrayList<String> out = new ArrayList<>();
+    public ArrayList<Result> Find(String inputQuery) throws ParseException, IOException {
+        ArrayList<Result> out = new ArrayList<>();
+        Result tmp;
         Query query = parser.parse(inputQuery);
         ScoreDoc[] score = searcher.search(query, TOP_N).scoreDocs;
 
         for (ScoreDoc scoreDoc : score) {
             Document doc = searcher.doc(scoreDoc.doc);
-            out.add(doc.getField("body").toString());
+            tmp = new Result();
+            tmp.setPath(doc.getField("path").stringValue());
+            tmp.setContent(doc.getField("body").stringValue());
+            out.add(tmp);
         }
         return out;
     }

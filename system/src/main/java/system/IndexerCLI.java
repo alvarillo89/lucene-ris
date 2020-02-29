@@ -6,7 +6,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "indexercli", description = "build an index from a set of documents")
+@Command(name = "indexer.jar", description = "build an index from a set of documents")
 public class IndexerCLI implements Callable<Integer> {
     @Option(names = "-i", paramLabel = "DOCUMENTS", required = true,
         description = "path to folder that contains the documents to be indexed")

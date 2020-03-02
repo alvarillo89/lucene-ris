@@ -34,13 +34,13 @@ public class QueryEngineGUI {
      */
     private void createGUI(){
         // Create window and set properties:
-        mainFrame = new JFrame("Untitled Goose Searcher");
+        mainFrame = new JFrame("Document Searcher");
         mainFrame.setSize(700, 500);
         mainFrame.setResizable(false);
         mainFrame.setLayout(new GridLayout(4,1));
 
         // Create widgets:
-        title = new JLabel("Untitled Goose Searcher", JLabel.CENTER);
+        title = new JLabel("Document Searcher", JLabel.CENTER);
         title.setFont(new Font("Lato", Font.PLAIN, 48));
         title.setForeground(Color.decode("#6A5ACD"));
         queryField = new JTextField(30);
